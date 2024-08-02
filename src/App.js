@@ -1,25 +1,28 @@
-import logo from './logo.svg';
+import React, { createContext } from 'react';
+import MultiSelectDropdown from './components/MultiSelectDropdown';
 import './App.css';
 
-function App() {
+export const ApiContext = createContext();
+
+const ApiProvider = ({ apiEndpoint, children }) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApiContext.Provider value={{ apiEndpoint }}>
+      {children}
+    </ApiContext.Provider>
   );
-}
+};
+
+const App = () => {
+  const apiEndpoint = 'https://jsonplaceholder.typicode.com/users';
+
+  return (
+    <ApiProvider apiEndpoint={apiEndpoint}>
+      <div className="App">
+        <h1>Multi-Select Dropdown Component</h1>
+        <MultiSelectDropdown />
+      </div>
+    </ApiProvider>
+  );
+};
 
 export default App;
